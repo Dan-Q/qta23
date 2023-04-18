@@ -4,7 +4,7 @@
 </h1>
 <p>
   <a href="/logout" class="btn" style="float: right;">Log out</a>
-  <% if @invitation.tagged? 'admin' %>
+  <% if @invitation.tagged?('admin') && !session[:infiltrating_from] %>
     <a href="/invitations" class="btn" style="float: right;">Admin</a>
   <% end %>
   <% if @invitation.tagged? 'friend of annabel' %>

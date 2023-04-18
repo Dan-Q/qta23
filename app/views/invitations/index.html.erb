@@ -21,7 +21,7 @@
   </thead>
   <tbody>
     <% @invitations.each do |invitation| %>
-      <tr class="rsvp-<%= invitation.rsvp || 'maybe' %>">
+      <tr class="rsvp-<%= invitation.rsvp || 'maybe' %>" id="invitation-<%= invitation.id %>">
         <td>
           <%= invitation.name %>
         </td>

@@ -524,6 +524,10 @@ details {
     background: #f0f0f0;
   }
 
+  tbody tr:target {
+    background: #f4d145;    
+  }
+
   tfoot td {
     background: #2d3e4f;
     color: white;
