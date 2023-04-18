@@ -1,0 +1,342 @@
+<h1>
+  Hail,
+  <%= @invitation.name.blank? ? 'Adventurer' : @invitation.name %>!
+</h1>
+<p>
+  <a href="/logout" class="btn" style="float: right;">Log out</a>
+  <% if @invitation.tagged? 'admin' %>
+    <a href="/invitations" class="btn" style="float: right;">Admin</a>
+  <% end %>
+  <% if @invitation.tagged? 'friend of annabel' %>
+    <strong>Annabel</strong> and <a href="https://thegreen.q-t-a.uk/">her family</a> -
+    <a href="https://fleeblewidget.co.uk/">Ruth</a> (mummy), <a href="https://electricquaker.fox.q-t-a.uk/">JTA</a> (daddy), <a href="https://danq.me/">Uncle Dan</a>, and <strong>John</strong> -
+    would like to invite you to their <strong>Summer Party</strong>.
+  <% elsif @invitation.tagged? 'friend of john' %>
+    <strong>John</strong> and <a href="https://thegreen.q-t-a.uk/">his family</a> -
+    <a href="https://fleeblewidget.co.uk/">Ruth</a> (mummy), <a href="https://electricquaker.fox.q-t-a.uk/">JTA</a> (daddy), <a href="https://danq.me/">Uncle Dan</a>, and <strong>Annabel</strong> -
+    would like to invite you to their <strong>Summer Party</strong>.
+  <% else %>
+    <a href="https://danq.me/">Dan</a>,
+    <a href="https://fleeblewidget.co.uk/">Ruth</a>,
+    <a href="https://electricquaker.fox.q-t-a.uk/">JTA</a>,
+    <strong>Annabel</strong> and <strong>John</strong> invite you and your family to join them for a
+    <strong>Summer Party</strong>.
+  <% end %>
+  <br>
+  Read on for more details and to let us know if you'll be joining us.
+</p>
+
+<hr>
+
+<div class="cols-3">
+  <div class="col">
+    <h2>When?</h2>
+    <p style="text-align: center;">
+      Saturday 19 August 2023<br>
+      2pm &mdash; 10:30pm<br>
+      <small>(child-friendly until their bedtimes!)</small>
+    </p>
+  </div>
+  <div class="col">
+    <h2>Where?</h2>
+    <p style="text-align: center;">
+      The Green, Eynsham Road, Sutton<br>
+      <small>(<a href="#map">map/directions</a>)</small>
+    </p>
+  </div>
+  <div class="col">
+    <h2>What?</h2>
+    <p style="text-align: center;">
+      Drinks, food, socialising<br>
+      Bouncy castle (for the kids!)<br>
+      <a href="#accom">Camping space available</a>
+    </p>
+  </div>
+</div>
+
+<p style="text-align: center;">
+  <a href="/ics" class="btn">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24" color="#ffffff"><defs><style>.cls-63762d3cc3a86d32eae6efc6-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><rect class="cls-63762d3cc3a86d32eae6efc6-1" x="1.5" y="2.43" width="21" height="4.77"></rect><rect class="cls-63762d3cc3a86d32eae6efc6-1" x="1.5" y="7.2" width="21" height="15.27"></rect><line class="cls-63762d3cc3a86d32eae6efc6-1" x1="6.27" y1="0.52" x2="6.27" y2="4.34"></line><line class="cls-63762d3cc3a86d32eae6efc6-1" x1="17.73" y1="0.52" x2="17.73" y2="4.34"></line><line class="cls-63762d3cc3a86d32eae6efc6-1" x1="12" y1="0.52" x2="12" y2="4.34"></line><path class="cls-63762d3cc3a86d32eae6efc6-1" d="M12,11h0a2.86,2.86,0,0,1,2.86,2.86v2.86a0,0,0,0,1,0,0H9.14a0,0,0,0,1,0,0V13.89A2.86,2.86,0,0,1,12,11Z"></path><line class="cls-63762d3cc3a86d32eae6efc6-1" x1="16.77" y1="16.75" x2="7.23" y2="16.75"></line><circle class="cls-63762d3cc3a86d32eae6efc6-1" cx="12" cy="17.7" r="0.95"></circle></svg>&nbsp;
+    Add to Calendar
+  </a>
+</p>
+
+<hr>
+
+<h2 id="rsvp">RSVP</h2>
+<p>
+  You can edit your RSVP as often as you like. Dragon ate your horse? Log in and let us know you can't come.
+  Tame the dragon and use it as your steed? Log in and change it again!
+</p>
+<%= form_tag "/rsvp#rsvp", method: :post, id: 'rsvp-form' do %>
+  <div class="cols-2">
+    <div class="col">
+      <h3>Attending?</h3>
+      <p>
+        Are you coming?
+      </p>
+      <ul id="rsvp-option-list">
+        <li>
+          <label for="rsvp-yes">
+            <input type="radio" name="rsvp" value="yes" id="rsvp-yes"<%= ' checked' if @invitation.rsvp == 'yes' %>>
+            <span><strong>Yes</strong> - I'll be there</span>
+          </label>
+        </li>
+        <li>
+          <label for="rsvp-no">
+            <input type="radio" name="rsvp" value="no" id="rsvp-no"<%= ' checked' if @invitation.rsvp == 'no' %>>
+            <span><strong>No</strong> - I can't make it</span>
+          </label>
+        </li>
+        <li>
+          <label for="rsvp-maybe">
+            <input type="radio" name="rsvp" value="maybe" id="rsvp-maybe"<%= ' checked' if (@invitation.rsvp != 'yes') && (@invitation.rsvp != 'no') %>>
+            <span><strong>Maybe</strong> - remind me later</span>
+          </label>
+        </li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3>Contact details</h3>
+      <p class="hide-if-rsvp-no hide-if-rsvp-maybe">
+        In case of emergency (or if you lose your magic word):
+      </p>
+      <p class="hide-if-rsvp-no hide-if-rsvp-yes">
+        So we can remind you to RSVP later:
+      </p>
+      <p class="hide-if-rsvp-maybe hide-if-rsvp-yes">
+        In case you change your mind: <em>(optional)</em>
+      </p>
+      <p>
+        <label for="rsvp-email"><strong>Email:</strong></label>
+        <% (@invitation.emails.empty? ? [''] : @invitation.emails).each do |email| %>
+          <br><input type="email" autocomplete="email" name="emails[]" id="rsvp-email" value="<%= email %>">
+        <% end %>
+      </p>
+      <p>
+        <label for="rsvp-phone"><strong>Phone:</strong></label>
+        <% (@invitation.phones.empty? ? [''] : @invitation.phones).each do |phone| %>
+          <br><input type="tel" autocomplete="tel" name="phones[]" id="rsvp-phone" value="<%= phone %>">
+        <% end %>
+      </p>
+    </div>
+  </div>
+  <div class="hide-if-rsvp-no hide-if-rsvp-maybe">
+    <h3>Who's coming?</h3>
+    <p>Let us know who's in your group (including you!): this helps us plan.</p>
+    <table id="rsvp-guests">
+      <thead>
+        <tr>
+          <th>Guest Name</th>
+          <th>Child?</th>
+          <th>Vegetarian?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% ((@invitation.guests || []) + [{}]).each do |guest| %>
+          <tr>
+            <td><input type="text" autocomplete="given-name" name="guests[][name]" value="<%= guest[:name] %>"></td>
+            <td>
+              <label class="rsvp-guests-checkbox-wrapper">
+                <input type="checkbox" name="guests[][child]" value="1"<%= ' checked' if guest[:child] %>>
+                <span></span>
+              </label>
+            </td>
+            <td>
+              <label class="rsvp-guests-checkbox-wrapper">
+                <input type="checkbox" name="guests[][vegetarian]" value="1"<%= ' checked' if guest[:vegetarian] %>>
+                <span></span>
+              </label>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <% unless @invitation.tagged? 'local' %>
+      <div style="display: flex; border-top: 2px dotted gray; border-bottom: 2px dotted gray; margin-top: 1.5em;">
+        <p>
+          <input type="checkbox" name="camping" id="camping" value="1"<%= ' checked' if @invitation.tagged? 'camping' %>>
+          <label for="camping"><strong>Camping?</strong> We can save you a spot to pitch your tent.</label>
+        </p>
+      </div>
+    <% end %>
+  </div>
+  <h3><label for="notes">Anything to add?</label></h3>
+  <p>
+    <textarea id="notes" name="notes"><%= @invitation.notes %></textarea>
+  </p>
+  <p style="text-align: center;">
+    <input type="submit" value="RSVP">
+  </p>
+<% end %>
+<p>
+  If you're having any difficulty or want to talk directly to us, see <a href="#contact">the contact us section</a> below!
+</p>
+
+<hr>
+
+<h2 id="map">Find us!</h2>
+<div class="cols-2">
+  <% unless @invitation.tagged? 'local' %>
+    <div class="col">
+      <h3>Finding Sutton</h3>
+      <p>
+        <a href="/img/map-oxfordshire-med.png"><img src="/img/map-oxfordshire-sm.png" alt="Map showing the location of Sutton within West Oxfordshire"></a>
+      </p>
+      <p>
+        Click on either map to see a larger version.<br>
+        <small> Or <a href="/img/maps-large.zip" download>download ultra-high-def versions</a>.</small>
+      </p>
+    </div>
+  <% end %>
+  <div class="col">
+    <h3>Finding The Green</h3>
+    <p>
+      <a href="/img/map-stanton-harcourt-med.png"><img src="/img/map-stanton-harcourt-sm.png" alt="Map showing the location of The Green within Sutton and Stanton Harcourt"></a>
+    </p>
+  </div>
+  <div class="col">
+    <% if @invitation.tagged? 'local' %>
+      <h3>It's Not Far!</h3>
+      <p>
+        It looks like you live locally to us.
+      <p>
+        Please consider walking/cycling rather than coming by car, as we've got limited driveway space and are expecting
+        a good number of non-local friends to visit too!
+      <p>
+        Thanks!
+      </p>
+      <p>
+        <small><a href="/img/maps-large.zip" download>Download ultra-high-def map</a>.</small>
+      </p>
+    <% else %>
+      <h3>Directions</h3>
+      <p>
+        From the A40, head South at Eynsham Roundabout on the B4449 (signposted Stanton Harcourt). Go straight over two roundabouts and left at the third
+        roundbout to continue to follow the B4449. Entering Sutton's 30mph zone, we're about a quarter of a mile on the right.
+      </p>
+      <p>
+        If your horseless carriage has one of those magic boxes that gives your directions, tell it to take you to "Three Rings CIC", or
+        <a href="https://thegreen.q-t-a.uk/">get our location in other formats here</a>.
+      </p>
+      <p>
+        We've got limited space on our driveway: you might be asked to park nearby (we'll let you know exactly where when you arrive!).
+      </p>
+    <% end %>
+  </div>
+</div>
+
+<hr>
+
+<h2 id="accom">Staying Over?</h2>
+<% if @invitation.tagged? 'local' %>
+  <div style="display: flex;">
+    <img src="/img/camping.jpg" style="float: left; width: min(25vw, 200px); height: min(25vw, 200px); border: 2px solid #222; margin: 0 12px 12px 0;">
+    <div>
+      <p style="margin-top: 0;">
+        It looks like you live nearby. We imagine you'll just walk home, but you're very welcome to join the campers in our garden if you like.
+      </p>
+      <p>
+        Let us know, and we'll save you a pitch!
+      </p>
+    </div>
+  </div>
+<% else %>
+  <p>
+    If you'd like to stay over, we'd love to have you! You've got a few options:
+  </p>
+  <div style="display: flex;">
+    <img src="/img/camping.jpg" style="float: left; width: min(25vw, 200px); height: min(25vw, 200px); border: 2px solid #222; margin: 0 12px 12px 0;">
+    <div>
+      <h3 style="margin-top: 0; text-align: left;">Camping</h3>
+      <p>
+        We've got enough garden space for a dozen or so regular-sized tents. Get the full experience of the Summer Party at the Green by
+        pitching a tent, and we'll make sure you're treated to a hearty breakfast in the morning.
+      </p>
+      <p>
+        Let us know if you plan on camping by checking the box in your RSVP.
+      </p>
+    </div>
+  </div>
+  <div style="display: flex;">
+    <img src="/img/harcourt-arms.jpg" style="float: left; width: min(25vw, 200px); height: min(25vw, 200px); border: 2px solid #222; margin: 0 12px 12px 0; clear: left;">
+    <div>
+      <h3 style="margin-top: 0; text-align: left;">Hotels</h3>
+      <p>
+        If you prefer a soft bed under a real roof, our local pub <a href="https://www.theharcourtarms.com/">The Harcourt Arms</a> is particularly lush.
+        There's also a variety of <a href="https://www.airbnb.co.uk/s/Stanton-Harcourt--Witney--UK/homes?tab_id=home_tab&refinement_paths%5B%5D=%2Fhomes&flexible_trip_lengths%5B%5D=one_week&price_filter_input_type=0&price_filter_num_nights=1&channel=EXPLORE&query=Stanton%20Harcourt%2C%20Witney&place_id=ChIJu3S0qjDJdkgRpSzhLY7Qhpg&date_picker_type=calendar&checkin=2023-08-19&checkout=2023-08-20&source=structured_search_input_header&search_type=user_map_move&ne_lat=51.75875286812494&ne_lng=-1.3789078484618358&sw_lat=51.74225393304923&sw_lng=-1.4178749810301952&zoom=15&zoom_level=15&search_by_map=true">"Airbnb"-style options</a> in the area.
+      </p>
+    </div>
+  </div>
+  <div style="display: flex;">
+    <img src="/img/crash.jpg" style="float: left; width: min(25vw, 200px); height: min(25vw, 200px); border: 2px solid #222; margin: 0 12px 12px 0; clear: left;">
+    <div>
+      <h3 style="margin-top: 0; text-align: left;">Crash Space</h3>
+      <p>
+        We've got a <em>small</em> amount of space in the house on sofa beds, camp beds, and inflatable matresses. We'll be prioritising these for
+        guests for whom the other options aren't suitable or who are travelling from furthest away, but if you're willing to sleep wherever we can
+        find space for you, get in touch and we'll try to squeeze you in!
+      </p>
+    </div>
+  </div>
+<% end %>
+
+<hr>
+
+<h2 id="faq">Frequently Anticipated Questions</h2>
+<details>
+  <summary>Can I bring a plus-one?</summary>
+  <p>
+    Absolutely: the more the merrier! Just make sure you mention them in your RSVP form, above, to ensure we put enough food and drinks on!
+  </p>
+</details>
+<details>
+  <summary>Can I bring a dog?</summary>
+  <p>
+    If your dog's friendly and sociable and likely to get on with our dog: yes, certainly. Please note that our garden is not fully-enclosed,
+    so if your dog's not got good road-sense you'll probably want to keep them on a lead.
+  </p>
+</details>
+<details>
+  <summary>Should I bring a gift?</summary>
+  <p>
+    No thanks! You've spent your whole life being taught that it's polite to bring a bottle, but you really don't have to (there'll be more than
+    enough already). All we need you to bring is yourself.
+  </p>
+</details>
+<details>
+  <summary>What's the party <em>for</em>?</summary>
+  <p>
+    No reason. We just like throwing a summer party and getting all of our friends (old and new, near and far) and their families together on one of the
+    longest days of the year.
+  </p>
+  <p>
+    Since moving to The Green, we first threw such a party in August 2022. That first one combined all the parties (birthdays, housewarming, new job, etc.) that we <em>hadn't</em> been able to throw on account of covid restrictions, but it was such a succcess that we decided to repeat it (but bigger!) in 2023.
+  </p>
+</details>
+<details>
+  <summary>What time should I arrive?</summary>
+  <p>
+    Any time it's on: it'll be a very casual drop-in/drop-out affair. Come along right at the start and let the kids exhaust themselves running around together.
+    Turn up a little later and join us for dinner. Pop by as the sun sets and enjoy a civilized drink around the fire pit. Or come spend the whole afternoon
+    and evening with us, if you can spare the time! We're just excited to have you over.
+  </p>
+</details>
+
+<hr>
+
+<h2 id="contact">Contact Us</h2>
+<p>
+  If you've got anything else to add to your RSVP or want to talk to us about anything else, please do! You can:
+</p>
+<ul>
+  <li>Email <a href="mailto:<%= ENV['SHARED_EMAIL'] %>"><%= ENV['SHARED_EMAIL'] %></a></li>
+  <li>
+    Call/text/WhatsApp any of:
+    <ul>
+      <li>Dan: <a href="tel:+44<%= ENV['DAN_MOBILE'].gsub(' ', '') %>">0<%= ENV['DAN_MOBILE'] %></a></li>
+      <li>JTA: <a href="tel:+44<%= ENV['JTA_MOBILE'].gsub(' ', '') %>">0<%= ENV['JTA_MOBILE'] %></a></li>
+      <li>Ruth: <a href="tel:+44<%= ENV['RUTH_MOBILE'].gsub(' ', '') %>">0<%= ENV['RUTH_MOBILE'] %></a></li>
+    </ul>
+  </li>
+</ul>

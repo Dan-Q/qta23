@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  notes: MyText
+  private_notes: MyText
+  code: MyString
+  last_login: 2023-04-13 15:27:42
+  emails: MyText
+  phones: MyText
+  guests: MyText
+
+two:
+  name: MyString
+  notes: MyText
+  private_notes: MyText
+  code: MyString
+  last_login: 2023-04-13 15:27:42
+  emails: MyText
+  phones: MyText
+  guests: MyText

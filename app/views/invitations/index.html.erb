@@ -1,0 +1,66 @@
+<h1>Invitations</h1>
+
+<p style="text-align: center;">
+  <%= link_to 'Add invitation', new_invitation_path, class: 'btn' %>
+  <%= link_to 'Back to My Invitation', root_url, class: 'btn' %>
+</p>
+
+<table id="all-invitations">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>RSVP</th>
+      <th>Last Login</th>
+      <th>Adults</th>
+      <th>Children</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @invitations.each do |invitation| %>
+      <tr>
+        <td>
+          <%= invitation.name %>
+        </td>
+        <td>
+          <%= invitation.rsvp %>
+        </td>
+        <td>
+          <%= invitation.last_login.to_date %>
+        </td>
+        <td>
+          <%=
+            adults = (invitation.guests || []).select{|g|!g[:child]}.count
+            @total_adults ||= 0
+            @total_adults += adults
+            adults
+          %>
+        </td>
+        <td>
+          <%=
+            children = (invitation.guests || []).select{|g|g[:child]}.count
+            @total_children ||= 0
+            @total_children += children
+            children
+          %>
+        </td>
+        <td>
+          <div style="display: flex;">
+            <%= link_to 'Edit', edit_invitation_path(invitation), class: 'btn btn-sm' %>
+            <%= button_to 'Infiltrate', infiltrate_invitation_path(invitation), class: 'btn btn-sm' %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><%= @total_adults %></td>
+      <td><%= @total_children %></td>
+      <td></td>
+    </tr>
+  </tfoot>
+</table>

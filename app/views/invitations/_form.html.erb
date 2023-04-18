@@ -1,0 +1,67 @@
+<%= form_with(model: invitation, class: 'edit-invitation-form') do |form| %>
+  <% if invitation.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(invitation.errors.count, "error") %> prohibited this invitation from being saved:</h2>
+
+      <ul>
+        <% invitation.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :notes, 'Notes (visible to invitee)', style: "display: block" %>
+    <%= form.text_area :notes %>
+  </div>
+
+  <div>
+    <%= form.label :private_notes, 'Private notes (for Q-T-A only!)', style: "display: block" %>
+    <%= form.text_area :private_notes %>
+  </div>
+
+  <div>
+    <%= form.label :code, 'Magic Word', style: "display: block" %>
+    <%= form.text_field :code %>
+  </div>
+
+  <div>
+    <%= form.label :emails_list, 'Email addresses (one per line, can be used to recover magic word)', style: "display: block" %>
+    <%= form.text_area :emails_list %>
+  </div>
+
+  <div>
+    <%= form.label :phones_list, 'Mobile numbers (one per line, can be used to recover magic word)', style: "display: block" %>
+    <%= form.text_area :phones_list %>
+  </div>
+
+  <div>
+    <p>Tags:</p>
+    <ul>
+      <% Invitation::KNOWN_TAGS.each do |tag, description| %>
+        <li class="edit-invitation-form-tag-<%= tag.underscore %>">
+          <label>
+            <%= form.check_box :tags, {multiple: true}, tag, 0 %>
+            <strong><%= tag %></strong><br>
+            <small><%= description %></small>
+          </label>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div>
+    <%= form.label :guests_json, "Guests (JSON array: if you don't understand don't fuck with it - infiltrate if you really want to tweak it!)", style: "display: block" %>
+    <%= form.text_area :guests_json %>
+  </div>
+
+  <div>
+    <%= form.submit %> <%= link_to 'Back', invitations_path, class: 'btn' %>
+  </div>
+<% end %>

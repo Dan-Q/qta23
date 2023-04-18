@@ -1,0 +1,13 @@
+version: '3.6'
+
+services:
+  www:
+    container_name: "qta23-www"
+    build:
+      context: .
+      dockerfile: ./config/docker/Dockerfile
+    env_file: .env
+    ports:
+      - "3344:3344"
+    volumes:
+      - "./:/www"
