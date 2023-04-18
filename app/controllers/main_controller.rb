@@ -62,7 +62,7 @@ class MainController < ApplicationController
       # treat as email
       if invitation = Invitation.where('emails LIKE ? OR emails LIKE ?', "%- #{params[:contact]}%", "%- '#{params[:contact]}'%").first
         MagicWordMailer.with(magic_word: invitation.code, email: params[:contact]).remind.deliver_now
-        flash[:notice] = "We've emailed you a fresh magic word. If you don't see it in a few minutes, check your spam folder!"
+        flash[:notice] = "We've emailed you a reminder of your magic word. If you don't see it in a few minutes, check your spam folder!"
       else
         flash[:notice] = "That email address wasn't recognised. Is there perhaps a different email address we might use for you?"
       end
