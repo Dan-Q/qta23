@@ -16,6 +16,9 @@ class Invitation < ApplicationRecord
     'friend of john' => 'Substitutes the intro message to one that introduces the hosts as "John and his family".',
     'camping' => 'Invitee has indicated that they intend to camp.',
     'invitation_sent' => 'Invitation has been sent. Help keep track of who we\'ve send a message to already!',
+    '3r' => "They're a Three Ringer!",
+    'abnib' => "They're an Abnib person!",
+    'resident' => "Some or all of them usually live at The Green!",
   }
 
   def tagged?(tag)
