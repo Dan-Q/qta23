@@ -4,7 +4,7 @@ class InvitationsController < ApplicationController
 
   # GET /invitations or /invitations.json
   def index
-    @invitations = Invitation.order(:rsvp, :name).all
+    @invitations = Invitation.order(Arel.sql("IF(rsvp = 'yes', 0, 1), IF(rsvp = 'maybe', 0, 1), IF(rsvp = 'no', 0, 1), name")).all
   end
 
   # GET /invitations/1 or /invitations/1.json

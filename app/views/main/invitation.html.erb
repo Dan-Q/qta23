@@ -133,7 +133,7 @@
         </tr>
       </thead>
       <tbody>
-        <% ((@invitation.guests || []) + [{}]).each do |guest| %>
+        <% ((@invitation.guests || []).reject{|g|g[:name].blank?} + [{}]).each do |guest| %>
           <tr>
             <td><input type="text" autocomplete="given-name" name="guests[][name]" value="<%= guest[:name] %>"></td>
             <td>

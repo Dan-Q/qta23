@@ -32,7 +32,9 @@
           <%=
             adults = (invitation.guests || []).reject{|g|g[:name].blank?}.select{|g|!g[:child]}.count
             @total_adults ||= 0
-            (@total_adults += adults) if invitation.rsvp == 'yes'
+            @total_confirmed_adults ||= 0
+            (@total_adults += adults) if invitation.rsvp != 'no'
+            (@total_confirmed_adults += adults) if invitation.rsvp == 'yes'
             adults
           %>
         </td>
@@ -40,7 +42,9 @@
           <%=
             children = (invitation.guests || []).reject{|g|g[:name].blank?}.select{|g|g[:child]}.count
             @total_children ||= 0
-            (@total_children += children) if invitation.rsvp == 'yes'
+            @total_confirmed_children ||= 0
+            (@total_children += children) if invitation.rsvp != 'no'
+            (@total_confirmed_children += children) if invitation.rsvp == 'yes'
             children
           %>
         </td>
@@ -57,10 +61,10 @@
     <tr>
       <td></td>
       <td></td>
-      <td></td>
-      <td><%= @total_adults %></td>
-      <td><%= @total_children %></td>
-      <td></td>
+      <td style="text-align: right; font-weight: bold;">Total (range):</td>
+      <td><%= @total_confirmed_adults %> &mdash; <%= @total_adults %></td>
+      <td><%= @total_confirmed_children %> &mdash; <%= @total_children %></td>
+      <td><%= @total_confirmed_adults + @total_confirmed_children %> &mdash; <%= @total_adults + @total_children %></td>
     </tr>
   </tfoot>
 </table>
