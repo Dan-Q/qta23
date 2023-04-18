@@ -32,8 +32,9 @@
           <%= (invitation.rsvp == 'yes') ? '✅' : (invitation.rsvp == 'no' ? '❌' : (invitation.rsvp == 'maybe' ? '❓' : '')) %>
         </td>
         <td>
-          <%= '😅 no contact!<br>'.html_safe if ((invitation.phones || []) + (invitation.emails || [])).empty? %>
+          <%= '📱 no contact!<br>'.html_safe if ((invitation.phones || []) + (invitation.emails || [])).empty? %>
           <%= '😅 rsvp yes, no guests!<br>'.html_safe if invitation.guests.empty? && (invitation.rsvp == 'yes') %>
+          <%= '🪄 no magic word!<br>'.html_safe if invitation.code.blank? %>
         </td>
         <td>
           <%= (invitation.tags || []).join('<br>').html_safe %>
