@@ -19,6 +19,7 @@ class Invitation < ApplicationRecord
     '3r' => "They're a Three Ringer!",
     'abnib' => "They're an Abnib person!",
     'resident' => "Some or all of them usually live at The Green!",
+    'attended_2022' => 'Did they come last year?',
   }
 
   def tagged?(tag)
