@@ -9,7 +9,10 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Sent?</th>
       <th>RSVP</th>
+      <th>Problems?</th>
+      <th>Tags</th>
       <th>Last Login</th>
       <th>Adults</th>
       <th>Children</th>
@@ -23,7 +26,17 @@
           <%= invitation.name %>
         </td>
         <td>
-          <%= invitation.rsvp %>
+          <%= invitation.tagged?('invitation_sent') ? '✅' : '❌' %>
+        </td>
+        <td>
+          <%= (invitation.rsvp == 'yes') ? '✅' : (invitation.rsvp == 'no' ? '❌' : (invitation.rsvp == 'maybe' ? '❓' : '')) %>
+        </td>
+        <td>
+          <%= '😅 no contact!<br>'.html_safe if ((invitation.phones || []) + (invitation.emails || [])).empty? %>
+          <%= '😅 rsvp yes, no guests!<br>'.html_safe if invitation.guests.empty? && (invitation.rsvp == 'yes') %>
+        </td>
+        <td>
+          <%= (invitation.tags || []).join('<br>').html_safe %>
         </td>
         <td>
           <%= invitation.last_login.try(:to_date) %>
@@ -52,6 +65,7 @@
           <div style="display: flex;">
             <%= link_to 'Edit', edit_invitation_path(invitation), class: 'btn btn-sm' %>
             <%= button_to 'Infiltrate', infiltrate_invitation_path(invitation), class: 'btn btn-sm' %>
+            <%= link_to 'Invite', invitation, class: 'btn btn-sm' %>
           </div>
         </td>
       </tr>
@@ -59,6 +73,9 @@
   </tbody>
   <tfoot>
     <tr>
+      <td></td>
+      <td></td>
+      <td></td>
       <td></td>
       <td></td>
       <td style="text-align: right; font-weight: bold;">Total (range):</td>

@@ -1,6 +1,6 @@
 class InvitationsController < ApplicationController
   before_action :admin_only
-  before_action :set_invitation, only: %i[show edit update destroy infiltrate]
+  before_action :set_invitation, only: %i[show edit update destroy infiltrate mark_sent]
 
   # GET /invitations or /invitations.json
   def index
@@ -9,7 +9,6 @@ class InvitationsController < ApplicationController
 
   # GET /invitations/1 or /invitations/1.json
   def show
-    edit
   end
 
   # GET /invitations/new
@@ -19,7 +18,14 @@ class InvitationsController < ApplicationController
 
   # GET /invitations/1/edit
   def edit
-    render 'edit'
+  end
+
+  def mark_sent
+    @invitation.tags ||= []
+    @invitation.tags << 'invitation_sent'
+    @invitation.save
+    flash[:notice] = "Marked-as-sent invitation to #{@invitation.name}"
+    redirect_to invitations_url
   end
 
   # POST /invitations or /invitations.json
@@ -69,7 +75,7 @@ class InvitationsController < ApplicationController
   private
     def admin_only
       @admin = Invitation.find_by(id: cookies.encrypted.permanent[:invitation])
-      return head(:forbidden) unless @admin.tagged? 'admin'
+      redirect_to(root_url) unless @admin.tagged? 'admin'
     end
 
     # Use callbacks to share common setup or constraints between actions.
@@ -79,7 +85,7 @@ class InvitationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def invitation_params
-      parsed_params = params.require(:invitation).permit(:name, :notes, :private_notes, :code, :last_login, :emails_list, :phones_list, :tags, :guests_json)
+      parsed_params = params.require(:invitation).permit(:name, :notes, :private_notes, :code, :last_login, :emails_list, :phones_list, :tags, :guests_editable_text)
       parsed_params
     end
 end

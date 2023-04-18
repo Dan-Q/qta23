@@ -498,10 +498,17 @@ details {
 
 /* Admin */
 
+.invitations-controller {
+  main {
+    width: Min(95vw, 1920px);
+  }
+}
+
 #all-invitations {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 2em;
+  font-size: 90%;
 
   th, td {
     padding: 0.25em;

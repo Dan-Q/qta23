@@ -10,7 +10,7 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
-  <body>
+  <body class="<%= params[:controller] %>-controller">
     <header class="h-event">
       <div class="title">
         <span class="p-name">Summer Party</span>

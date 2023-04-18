@@ -57,8 +57,8 @@
   </div>
 
   <div>
-    <%= form.label :guests_json, "Guests (JSON array: if you don't understand don't fuck with it - infiltrate if you really want to tweak it!)", style: "display: block" %>
-    <%= form.text_area :guests_json %>
+    <%= form.label :guests_editable_text, "Guests (one per line, use suffixes like ':c' for child and ':v' for vegetarian, chain multiple with colons e.g. ':c:v')", style: "display: block" %>
+    <%= form.text_area :guests_editable_text %>
   </div>
 
   <div>

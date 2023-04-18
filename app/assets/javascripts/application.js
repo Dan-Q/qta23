@@ -32,7 +32,7 @@ function maybeRSVPStatusChanged(e){
   if (!rsvpOptionList || !rsvpOptionList.contains(e.target)) return;
   setRSVPStatus();
 };
-setRSVPStatus();
+if(rsvpOptionList) retRSVPStatus();
 
 document.addEventListener('change', maybeRSVPStatusChanged);
 document.addEventListener('keyup', maybeRSVPStatusChanged);

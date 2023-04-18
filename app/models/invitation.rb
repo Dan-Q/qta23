@@ -15,6 +15,7 @@ class Invitation < ApplicationRecord
     'friend of annabel' => 'Substitutes the intro message to one that introduces the hosts as "Annabel and her family".',
     'friend of john' => 'Substitutes the intro message to one that introduces the hosts as "John and his family".',
     'camping' => 'Invitee has indicated that they intend to camp.',
+    'invitation_sent' => 'Invitation has been sent. Help keep track of who we\'ve send a message to already!',
   }
 
   def tagged?(tag)
@@ -47,6 +48,28 @@ class Invitation < ApplicationRecord
 
   def guests_json=(new_json)
     self.guests = JSON.parse(new_json)
+  end
+
+  def guests_editable_text
+    (self.guests || []).map{|g|
+      suffixes = []
+      suffixes << ':c' if g[:child]
+      suffixes << ':v' if g[:vegetarian]
+      "#{g[:name]}#{suffixes.join('')}"
+    }.join("\n")
+  end
+
+  def guests_editable_text=(new_text)
+    self.guests = new_text.split("\n").map(&:strip).reject(&:blank?).map{|g|
+      guest = { child: false, vegetarian: false }
+      while g =~ /^(.+):([cv])$/
+        guest[:child] = true if $2 == 'c'
+        guest[:vegetarian] = true if $2 == 'v'
+        g = $1
+      end
+      guest[:name] = g
+      guest
+    }
   end
 
   def self.standardise_phone_number(phone)

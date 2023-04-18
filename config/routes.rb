@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   # Admin:
   resources :invitations do
     member do
-      post 'infiltrate'
+      post 'infiltrate', 'mark_sent'
     end
   end
 

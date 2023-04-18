@@ -1,0 +1,75 @@
+<h1>Inviting <%= @invitation.name %></h1>
+
+<% if @invitation.tagged? 'invitation_sent' %>
+  <p>
+    <strong>This person's already been sent an invitation!</strong> Take care not to harass them too much!
+  </p>
+<% end %>
+
+<h2>Sample Email</h2>
+<p>
+  <% if @invitation.emails.empty? %>
+    If you know their email address, why didn't you <%= link_to 'put it on the form', edit_invitation_path(@invitation) %>!?
+  <% else %>
+    Perhaps send this to: <code><%= @invitation.emails.join(',') %></code>
+  <% end %>
+</p>
+<blockquote>
+  <p>
+    Dear <%= @invitation.name %>,
+  </p>
+  <p>
+    Following the success of last year's event, we're throwing another
+    <a href="https://qta23.uk/invite/<%= @invitation.code %>"><strong>Summer Party at The Green</strong></a>
+    this year.
+  </p>
+  <p>
+    We hope you'll come and join us on 19 August 2023 at
+    <a href="https://thegreen.q-t-a.uk/">The Green in Sutton</a>.
+  </p>
+  <p>
+    For more details and to RSVP, visit <a href="https://qta23.uk/invite/<%= @invitation.code %>">qta23.uk</a>
+    and log in with the magic word: <code><%= @invitation.code %></code>
+  </p>
+  <p>
+    Hope to see you there!
+  </p>
+  <hr>
+  <p>
+    Dan, Ruth, JTA, and the rest of the family
+  </p>
+</blockquote>
+
+<h2>Sample WhatsApp</h2>
+<p>
+  <% if @invitation.phones.empty? %>
+    If you know their phone number, why didn't you <%= link_to 'put it on the form', edit_invitation_path(@invitation) %>!?
+  <% else %>
+    Perhaps send this to:
+    <%= @invitation.phones.map{|phone| link_to(phone, "https://wa.me/#{phone.gsub(/^0/, '44')}") }.to_sentence.html_safe %>
+  <% end %>
+</p>
+<blockquote>
+  <p>
+    <%= @invitation.name %>,
+    <br><br>
+    Following the success of last year's event, we're throwing another
+    *<strong>Summer Party at The Green</strong>*
+    this year.
+    <br><br>
+    We hope you'll come and join us on 19 August 2023 at The Green, Eynsham Road, Sutton, OX29 5RZ.
+    <br><br>
+    For more details and to RSVP, visit https://qta23.uk and log in with the magic word: ```<code><%= @invitation.code %></code>```
+    <br><br>
+    Or log in using this magic link: https://qta23.uk/invite/<%= @invitation.code %>
+    <br><br>
+    Hope to see you there!
+  </p>
+</blockquote>
+
+<p>
+  <% unless @invitation.tagged? 'invitation_sent' %>
+    <%= button_to 'Mark invitation as sent', mark_sent_invitation_path(@invitation), class: 'btn' %>
+  <% end %>
+  <%= link_to 'Back to list', invitations_path, class: 'btn' %>
+</p>
