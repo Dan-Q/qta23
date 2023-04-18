@@ -155,8 +155,12 @@
     <% unless @invitation.tagged? 'local' %>
       <div style="display: flex; border-top: 2px dotted gray; border-bottom: 2px dotted gray; margin-top: 1.5em;">
         <p>
-          <input type="checkbox" name="camping" id="camping" value="1"<%= ' checked' if @invitation.tagged? 'camping' %>>
-          <label for="camping"><strong>Camping?</strong> We can save you a spot to pitch your tent.</label>
+          <label for="camping">
+            <input type="checkbox" name="camping" id="camping" value="1"<%= ' checked' if @invitation.tagged? 'camping' %>>
+            <span>
+              <strong>Camping?</strong> &nbsp; We can save you a spot to pitch your tent.
+            </span>
+          </label>
         </p>
       </div>
     <% end %>
