@@ -86,6 +86,7 @@ class InvitationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def invitation_params
       parsed_params = params.require(:invitation).permit(:name, :notes, :private_notes, :code, :last_login, :emails_list, :phones_list, :tags, :guests_editable_text)
+      parsed_params[:tags] = params[:invitation][:tags] # manual hack: shouldn't be needed but is? can't be bothered working out why...
       parsed_params
     end
 end

@@ -47,7 +47,7 @@
       <% Invitation::KNOWN_TAGS.each do |tag, description| %>
         <li class="edit-invitation-form-tag-<%= tag.underscore %>">
           <label>
-            <%= form.check_box :tags, {multiple: true}, tag, 0 %>
+            <%= form.check_box :tags, {multiple: true}, tag, nil %>
             <strong><%= tag %></strong><br>
             <small><%= description %></small>
           </label>
