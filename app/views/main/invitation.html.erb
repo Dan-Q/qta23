@@ -157,7 +157,7 @@
         <p>
           <label for="camping">
             <input type="checkbox" name="camping" id="camping" value="1"<%= ' checked' if @invitation.tagged? 'camping' %>>
-            <span>
+            <span class="no-line-through-when-unselected">
               <strong>Camping?</strong> &nbsp; We can save you a spot to pitch your tent.
             </span>
           </label>

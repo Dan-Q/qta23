@@ -401,6 +401,10 @@ input[type="checkbox"] {
       border: 3px solid transparent;
       border-radius: 6px;
 
+      &.no-line-through-when-unselected {
+        text-decoration: none;
+      }
+
       &:hover {
         border-color: #9d7d1e;
       }
