@@ -18,7 +18,7 @@
   </thead>
   <tbody>
     <% @invitations.each do |invitation| %>
-      <tr>
+      <tr class="rsvp-<%= invitation.rsvp || 'maybe' %>">
         <td>
           <%= invitation.name %>
         </td>
@@ -30,17 +30,17 @@
         </td>
         <td>
           <%=
-            adults = (invitation.guests || []).select{|g|!g[:child]}.count
+            adults = (invitation.guests || []).reject{|g|g[:name].blank?}.select{|g|!g[:child]}.count
             @total_adults ||= 0
-            @total_adults += adults
+            (@total_adults += adults) if invitation.rsvp == 'yes'
             adults
           %>
         </td>
         <td>
           <%=
-            children = (invitation.guests || []).select{|g|g[:child]}.count
+            children = (invitation.guests || []).reject{|g|g[:name].blank?}.select{|g|g[:child]}.count
             @total_children ||= 0
-            @total_children += children
+            (@total_children += children) if invitation.rsvp == 'yes'
             children
           %>
         </td>
