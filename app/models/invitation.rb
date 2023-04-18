@@ -5,6 +5,7 @@ class Invitation < ApplicationRecord
   serialize :tags, Array
 
   validates :rsvp, inclusion: { in: %w[yes no maybe], allow_nil: true }
+  validates :code, uniqueness: true, exclusion: { in: %w[melon mellon hocuspocus abracadabra alakazam opensesame hunter2 friend enter friendandenter getlamp] }
 
   before_save :standardise_phone_numbers
 

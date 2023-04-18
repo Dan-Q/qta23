@@ -25,7 +25,7 @@ class InvitationsController < ApplicationController
     @invitation.tags << 'invitation_sent'
     @invitation.save
     flash[:notice] = "Marked-as-sent invitation to #{@invitation.name}"
-    redirect_to invitations_url
+    redirect_to "/invitations#invitation-#{@invitation.id}"
   end
 
   # POST /invitations or /invitations.json

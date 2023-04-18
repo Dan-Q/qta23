@@ -7,7 +7,23 @@ class MainController < ApplicationController
   end
 
   def login
-    if (identity = Invitation.find_by(code: params[:code]))
+    if(params[:code] =~ /^mell?on$/i) # Easter Egg
+      flash[:notice] = "It is dark. You are likely to be eaten by a watcher in the water."
+    elsif(params[:code] =~ /^(abracadabra|alakazam|hocus ?pocus|open ?sesame)$/i) # Easter Egg
+      flash[:notice] = "What is this, a conjuring trick?"
+    elsif(params[:code] == 'hunter2') # Easter Egg
+      flash[:notice] = "Why did you type seven asterisks as your magic word?"
+    elsif(params[:code] == 'friend') # Easter Egg
+      flash[:notice] = "Very clever. Now try in Elvish."
+    elsif(params[:code] == 'enter') # Easter Egg
+      flash[:notice] = "With great effort, you open the window far enough to allow entry. You are in the kitchen of the white house..."
+    elsif(params[:code] =~ /^get ?lamp$/i) # Easter Egg
+      flash[:notice] = "Brass lantern: taken."
+    elsif(params[:code] =~ /^friend ?and ?enter$/i) # Easter Egg
+      flash[:notice] = "That's an entirely different thing. Altogether."
+    elsif(params[:code] =~ /^that'?s ?an ?entirely ?different ?thing/i) # Easter Egg
+      flash[:notice] = "Shirley you can't be serious?"
+    elsif (identity = Invitation.find_by(code: params[:code]))
       identity.touch(:last_login)
       cookies.encrypted[:invitation] = { value: identity.id, httponly: true, expires: 6.months.from_now, same_site: :lax }
     else
