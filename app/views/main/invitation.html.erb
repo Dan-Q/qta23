@@ -226,6 +226,9 @@
       <p>
         We've got limited space on our driveway: you might be asked to park nearby (we'll let you know exactly where when you arrive!).
       </p>
+      <p>
+        <strong>Coming by public transport?</strong> <a href="#public-transport">Scroll down to the FAQ</a>...
+      </p>
     <% end %>
   </div>
 </div>
@@ -324,6 +327,44 @@
     Any time it's on: it'll be a very casual drop-in/drop-out affair. Come along right at the start and let the kids exhaust themselves running around together.
     Turn up a little later and join us for dinner. Pop by as the sun sets and enjoy a civilized drink around the fire pit. Or come spend the whole afternoon
     and evening with us, if you can spare the time! We're just excited to have you over.
+  </p>
+</details>
+<details id="public-transport">
+  <summary>Can I get there by public transport?</summary>
+  <p>
+    We're.... hard to reach by public transport. But if you're willing to get most of the way, we'll arrange for a driver to bring you the last few miles! See how far you can get through these steps and we'll pick you up.
+  </p>
+  <p>
+    If you need a lift, we'd love it if you come early so our driver can get their driving out of the way and start drinking!
+  </p>
+  <p>
+    Here's the instructions:
+  </p>
+  <ol>
+    <li>
+      <strong>Take a train to Oxford or Oxford Parkway.</strong> Oxford Parkway is easier to collect you from, if you have a choice between them. (Another option is Hanborough, if you happen to live near a train line that serves that little backwater!)<br>
+      (But honestly: if you can get to Oxford Parkway you've done enough. We'll come collect you. The steps below are only for those who are looking for a special level of public transport adventure!)
+    </li>
+    <li>
+      <strong>Take a bus from Oxford to Eynsham.</strong> Eynsham's <em>almost</em> a comfortable walking distance from us. We'll still pick you up, of course, but it's a shorter drive for us! The <a href="https://tiscon-maps-stagecoachbus.s3.amazonaws.com/Timetables/Oxford_Timetables/S1_current.pdf">S1 bus</a> connects Oxford and Witney, via Eynsham, and runs about twice an hour on weekdays, once an hour on weekends.
+    </li>
+    <li>
+      <strong>Take a volunteer minibus from Eynsham to Sutton.</strong> The only public transport in our village is the volunteer-run <a href="https://www.firstandlastmile.org.uk/routes">First & Last Mile service number 418</a>. It only runs on weekdays with approximately one service every two hours. You can <a href="https://bustimes.org/services/418-standlake-stanton-harcourt-eynsham#map">track the bus in real-time</a> if you like! We live a stone's throw from the <strong>Sutton Turn</strong> stop.
+    </li>
+  </ol>
+</details>
+<% unless @friend_groups.empty? %>
+  <details>
+    <summary>Will I know people there?</summary>
+    <% @friend_groups.each do |friend_group| %>
+      <p><%= friend_group %></p>
+    <% end %>
+  </details>
+<% end %>
+<details>
+  <summary>How many people are coming?</summary>
+  <p>
+    At last count, a few minutes ago, we've got <%= @total_rsvp_yeses %> guests expected (of whom <%= @total_rsvp_yeses_children %> are children). Plus many more people who've RSVP'd "maybe" who we'll be checking with later on.
   </p>
 </details>
 

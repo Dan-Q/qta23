@@ -23,12 +23,16 @@
     <% @invitations.each do |invitation| %>
       <tr class="rsvp-<%= invitation.rsvp || 'maybe' %>" id="invitation-<%= invitation.id %>">
         <td>
-          <%= invitation.name %>
+          <% if invitation.name.blank? # anonvitation %>
+            🕵️ <code><%= invitation.code %></code>
+          <% else %>
+            <%= invitation.name %>
+          <% end %>
         </td>
-        <td>
-          <%= invitation.tagged?('invitation_sent') ? '✅' : '❌' %>
+        <td style="text-align: center;">
+          <%= invitation.tagged?('invitation_sent') ? '📨' : '📤' %>
         </td>
-        <td>
+        <td style="text-align: center;">
           <%= (invitation.rsvp == 'yes') ? '✅' : (invitation.rsvp == 'no' ? '❌' : (invitation.rsvp == 'maybe' ? '❓' : '')) %>
         </td>
         <td>

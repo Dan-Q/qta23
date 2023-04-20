@@ -4,7 +4,8 @@ class InvitationsController < ApplicationController
 
   # GET /invitations or /invitations.json
   def index
-    @invitations = Invitation.order(Arel.sql("IF(rsvp = 'yes', 0, 1), IF(rsvp = 'maybe', 0, 1), IF(rsvp = 'no', 0, 1), name")).all
+    @invitations = Invitation.order(Arel.sql("IF(name = '', 1, 0), IF(rsvp = 'yes', 0, 1), IF(rsvp = 'maybe', 0, 1), IF(rsvp = 'no', 0, 1), name")).all.to_a
+    @invitations.reject!{|i|i.tagged?('anonymous_invitation')} unless params[:show_anonymous]
   end
 
   # GET /invitations/1 or /invitations/1.json

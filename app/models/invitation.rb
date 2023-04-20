@@ -17,10 +17,12 @@ class Invitation < ApplicationRecord
     'friend of john' => 'Substitutes the intro message to one that introduces the hosts as "John and his family".',
     'camping' => 'Invitee has indicated that they intend to camp.',
     'invitation_sent' => 'Invitation has been sent. Help keep track of who we\'ve send a message to already!',
-    '3r' => "They're a Three Ringer!",
-    'abnib' => "They're an Abnib person!",
+    '3r' => "They're a Three Ringer! [Auto-Friends Group]",
+    'abnib' => "They're an Abnib person! [Auto-Friends Group]",
     'resident' => "Some or all of them usually live at The Green!",
     'attended_2022' => 'Did they come last year?',
+    'bodleian' => "Dan's dream team: the Old Guard of Cake and Magic. [Auto-Friends Group]",
+    'anonymous_invitation' => "We've pre-generated a stack of magic words for use on paper, \"write in a name and hand them out\" invitations. So as not to clutter the UI, these are usually invisible in the admin interface until somebody logs into them. You probably don't want to tick this box.",
   }
 
   def tagged?(tag)

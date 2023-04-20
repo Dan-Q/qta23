@@ -27,7 +27,7 @@
   </div>
 
   <div>
-    <%= form.label :code, 'Magic Word', style: "display: block" %>
+    <%= form.label :code, 'Magic Word (lowercase letters and numbers only; you might be able to get away with hyphens I suppose)', style: "display: block" %>
     <%= form.text_field :code %>
   </div>
 
@@ -44,7 +44,7 @@
   <div>
     <p>Tags:</p>
     <ul>
-      <% Invitation::KNOWN_TAGS.each do |tag, description| %>
+      <% Invitation::KNOWN_TAGS.sort.each do |tag, description| %>
         <li class="edit-invitation-form-tag-<%= tag.underscore %>">
           <label>
             <%= form.check_box :tags, {multiple: true}, tag, nil %>

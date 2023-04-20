@@ -2,8 +2,29 @@ class MainController < ApplicationController
   before_action :check_if_logged_in
   before_action :must_be_logged_in, only: [:rsvp, :ics]
 
+  FRIEND_GROUPS = {
+    '3r' => "It looks like you're a Three Rings volunteer. %<friends_invited>d Three Rings volunteers have been invited (including the %<friends_resident>d normally resident at The Green). %<friends_attending>d so far have confirmed that they'll be attending.",
+    'abnib' => "We've sent out %<friends_invited>d invitations to Abnibbers (note that some Abnibbers cohabit and will have received a single invitation to share!). Including the %<friends_resident>d Abnibbers who live at the green, %<friends_attending>d have RSVP'd 'yes'.",
+    'bodleian' => "You're part of the Old Guard of Cake and Magic; among %<friends_invited>d of them to have been invited (including the %<friends_resident>d normally resident at The Green). %<friends_attending>d Old Guard folks have RSVP'd 'yes'.",
+  }
+
   def index
-    render @invitation ? 'invitation' : 'index'
+    return render('index')  unless @invitation
+
+    @friend_groups = []
+    @other_invitations = Invitation.all
+    rsvp_yeses = @other_invitations.select{|other|other.rsvp == 'yes'}
+    @total_rsvp_yeses = rsvp_yeses.sum{|other|other.guests.length}
+    @total_rsvp_yeses_children = rsvp_yeses.sum{|other|other.guests.select{|guest|guest[:child]}.length}
+    @invitation.tags.each do |tag|
+      next unless desc = FRIEND_GROUPS[tag]
+      friends_invited = @other_invitations.select{|other|other.tagged?(tag)}.length
+      friends_attending = rsvp_yeses.select{|other|other.tagged?(tag)}.length
+      friends_resident = @other_invitations.select{|other|other.tagged?(tag) && other.tagged?('resident')}.length
+      @friend_groups << sprintf(desc, { friends_invited: friends_invited, friends_attending: friends_attending, friends_resident: friends_resident })
+    end
+
+    render 'invitation'
   end
 
   def login
