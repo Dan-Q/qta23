@@ -47,6 +47,9 @@ class MainController < ApplicationController
     elsif (identity = Invitation.find_by(code: params[:code]))
       identity.touch(:last_login)
       cookies.encrypted[:invitation] = { value: identity.id, httponly: true, expires: 6.months.from_now, same_site: :lax }
+      if request.get?
+        flash[:notice] = "As if by magic, you've been automatically logged-in using your magic word: #{identity.code}"
+      end
     else
       if request.post?
         flash[:notice] = "That magic word wasn't recognised. Do you need to take a spelling lesson?"
