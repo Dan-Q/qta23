@@ -501,6 +501,7 @@ details {
 .invitations-controller {
   main {
     width: Min(95vw, 1920px);
+    overflow: scroll;
   }
 }
 
