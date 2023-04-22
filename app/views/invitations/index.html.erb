@@ -5,6 +5,8 @@
   <%= link_to 'Back to My Invitation', root_url, class: 'btn' %>
 </p>
 
+<div id="filters"></div>
+
 <table id="all-invitations">
   <thead>
     <tr>
@@ -21,7 +23,7 @@
   </thead>
   <tbody>
     <% @invitations.each do |invitation| %>
-      <tr class="rsvp-<%= invitation.rsvp || 'maybe' %>" id="invitation-<%= invitation.id %>">
+      <tr class="shown rsvp-<%= invitation.rsvp || 'unanswered' %> <%= invitation.tagged?('invitation_sent') ? 'f-sent' : 'f-unsent' %>" id="invitation-<%= invitation.id %>">
         <td>
           <% if invitation.name.blank? # anonvitation %>
             🕵️ <code><%= invitation.code %></code>
@@ -90,3 +92,26 @@
     </tr>
   </tfoot>
 </table>
+
+<script type="text/javascript">
+  const invitationsTable = document.querySelector('#all-invitations tbody');
+  const filters = document.getElementById('filters');
+  const filterData = [
+    'Sent',
+    { class: 'f-sent', label: '📨 Sent' },
+    { class: 'f-unsent', label: '📤 Unsent' },
+    '<br><br>RSVP',
+    { class: 'rsvp-yes', label: '✅ Yes' },
+    { class: 'rsvp-no', label: '❌ No' },
+    { class: 'rsvp-maybe', label: '❓ Maybe' },
+    { class: 'rsvp-unanswered', label: 'Unanswered' },
+  ];
+  const filterList = filterData.map(f=> (typeof f === 'string') ? `<strong>${f}:</strong>` :  `<label><input type="checkbox" class="filter-box" data-filter="${f.class}" checked> ${f.label}</label>`);
+  filters.innerHTML = `<p>${filterList.join(' ')}</p>`;
+  filters.addEventListener('change', ()=>{
+    [...invitationsTable.querySelectorAll('tr')].forEach(tr=>tr.classList.add('shown'));
+    [...filters.querySelectorAll('input[type="checkbox"]:not(:checked)')].forEach(checkbox=>{
+      [...invitationsTable.querySelectorAll(`tr.${checkbox.dataset.filter}`)].forEach(tr=>tr.classList.remove('shown'));
+    });
+  });
+</script>
