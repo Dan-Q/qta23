@@ -158,9 +158,23 @@
           <label for="camping">
             <input type="checkbox" name="camping" id="camping" value="1"<%= ' checked' if @invitation.tagged? 'camping' %>>
             <span class="no-line-through-when-unselected">
-              <strong>Camping?</strong> &nbsp; We can save you a spot to pitch your tent.
+              <strong style="margin-right: 1ch;">Camping?</strong> 
+              <span>
+                Pitching a tent? Let us know below how big it is (e.g. how many it sleeps, or dimensions).
+              </span>
             </span>
           </label>
+          <% unless @invitation.tagged? 'local' %>
+            <label for="public_transport">
+              <input type="checkbox" name="public_transport" id="public_transport" value="1"<%= ' checked' if @invitation.tagged? 'public_transport' %>>
+              <span class="no-line-through-when-unselected">
+                <strong style="margin-right: 1ch;">Public transport?</strong>
+                <span>
+                  If you'll need picking up from a station, let us know which station and your ETA below.
+                </span>
+              </span>
+            </label>
+          <% end %>
         </p>
       </div>
     <% end %>
@@ -365,6 +379,12 @@
   <summary>How many people are coming?</summary>
   <p>
     At last count, a few minutes ago, we've got <%= @total_rsvp_yeses %> guests expected (of whom <%= @total_rsvp_yeses_children %> are children). Plus many more people who've RSVP'd "maybe" who we'll be checking with later on.
+  </p>
+</details>
+<details>
+  <summary>Where are last year's photos?</summary>
+  <p>
+    <a href="https://qta23.uk/qta22-pics/">Here you go!</a>
   </p>
 </details>
 

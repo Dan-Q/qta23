@@ -78,9 +78,16 @@ class MainController < ApplicationController
     @invitation.guests = params[:guests].map{|g| { name: g[:name], child: !!g[:child], vegetarian: !!g[:vegetarian] } }.reject{|g| g[:name].blank? }
     @invitation.emails = params[:emails].map(&:to_s).reject(&:blank?)
     @invitation.phones = params[:phones].map(&:to_s).reject(&:blank?)
-    (@invitation.tags ||= []) << 'camping' if params[:camping]
+    
+    # handle tags:
+    @invitation.tags ||= []
+    @invitation.tags.delete('camping')
+    @invitation.tags.delete('public_transport')
+    @invitation.tags << 'camping' if params[:camping]
+    @invitation.tags << 'public_transport' if params[:public_transport]
     @invitation.notes = params[:notes]
     @invitation.tags.uniq!
+
     if !@invitation.save
       flash[:notice] = "Something went wrong while recording your RSVP. <a href=\"#contact\">Get in touch</a> and let us know!"
     elsif @invitation.rsvp == 'yes'
